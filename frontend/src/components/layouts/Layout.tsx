@@ -1,12 +1,13 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../../stores/authStore'
-import { LayoutDashboard, BookOpen, FileText, Users, Wallet, PieChart, Settings, LogOut, Menu, X, Key } from 'lucide-react'
+import { LayoutDashboard, BookOpen, FileText, Users, Wallet, PieChart, Settings, LogOut, Menu, X, Key, DollarSign } from 'lucide-react'
 import { useState } from 'react'
 
 const menuItems = [
   { path: '/', label: 'لوحة التحكم', icon: LayoutDashboard },
   { path: '/accounts', label: 'شجرة الحسابات', icon: BookOpen },
   { path: '/journals', label: 'القيود اليومية', icon: FileText },
+  { path: '/american-journal', label: 'اليومية الأمريكية', icon: FileText },
   { path: '/ledger', label: 'الأستاذ العام', icon: FileText },
   { path: '/trial-balance', label: 'ميزان المراجعة', icon: PieChart },
   { path: '/funds', label: 'Funds', icon: Wallet },
@@ -15,10 +16,11 @@ const menuItems = [
   { path: '/donations', label: 'التبرعات', icon: Wallet },
   { path: '/budgets', label: 'الموازنات', icon: PieChart },
   { path: '/reports', label: 'التقارير', icon: FileText },
+  { path: '/cost-centers', label: 'مراكز التكلفة', icon: PieChart },
   { path: '/users', label: 'المستخدمون', icon: Users, adminOnly: true },
   { path: '/roles', label: 'الصلاحيات', icon: Settings, adminOnly: true },
   { path: '/fiscal-years', label: 'السنوات المالية', icon: Settings, adminOnly: true },
-  { path: '/currencies', label: 'العملات', icon: Settings, adminOnly: true },
+  { path: '/currencies', label: 'العملات', icon: DollarSign, adminOnly: true },
   { path: '/audit-logs', label: 'سجل المراجعة', icon: FileText, adminOnly: true },
   { path: '/backups', label: 'النسخ الاحتياطي', icon: Settings, adminOnly: true },
   { path: '/settings', label: 'الإعدادات', icon: Settings, adminOnly: true },

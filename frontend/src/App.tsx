@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Accounts from './pages/Accounts'
 import JournalEntries from './pages/JournalEntries'
+import AmericanJournal from './pages/AmericanJournal'
 import GeneralLedger from './pages/GeneralLedger'
 import TrialBalance from './pages/TrialBalance'
 import Funds from './pages/Funds'
@@ -20,6 +21,7 @@ import Currencies from './pages/Currencies'
 import AuditLogs from './pages/AuditLogs'
 import Backups from './pages/Backups'
 import Settings from './pages/Settings'
+import CostCenters from './pages/CostCenters'
 import ChangePassword from './pages/ChangePassword'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -39,6 +41,7 @@ function App() {
         <Route index element={<Dashboard />} />
         <Route path="accounts" element={<Accounts />} />
         <Route path="journals" element={<JournalEntries />} />
+        <Route path="american-journal" element={<AmericanJournal />} />
         <Route path="ledger" element={<GeneralLedger />} />
         <Route path="trial-balance" element={<TrialBalance />} />
         <Route path="funds" element={<Funds />} />
@@ -54,6 +57,7 @@ function App() {
         <Route path="audit-logs" element={<AuditLogs />} />
         <Route path="backups" element={<Backups />} />
         <Route path="settings" element={<Settings />} />
+        <Route path="cost-centers" element={<CostCenters />} />
       </Route>
     </Routes>
   )

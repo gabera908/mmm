@@ -88,6 +88,7 @@ export interface JournalEntryLine {
   account_id: number
   fund_id: number
   project_id: number
+  cost_center_id: number
   debit: number
   credit: number
   description: string
@@ -148,6 +149,10 @@ export interface AccountingPeriod {
 export interface AuditLog {
   id: number
   user_id: number
+  user?: {
+    id: number
+    username: string
+  }
   action: string
   table_name: string
   record_id: number
@@ -164,4 +169,54 @@ export interface BackupRecord {
   file_size: number
   backup_type: string
   created_at: string
+}
+
+export interface Settings {
+  id: number
+  company_name: string
+  logo: string
+  address: string
+  phone: string
+  email: string
+  base_currency: string
+  fiscal_year_id: number
+  date_format: string
+  number_format: string
+  report_header: string
+  auto_backup: boolean
+  auto_backup_frequency: string
+}
+
+export interface CostCenter {
+  id: number
+  code: string
+  name: string
+  description: string
+  fund_id: number
+  is_active: boolean
+}
+
+export interface AmericanJournalRow {
+  date: string
+  entry_number: string
+  description: string
+  account_code: string
+  account_name: string
+  debit: number
+  credit: number
+  balance: number
+}
+
+export interface ExchangeRate {
+  id: number
+  currency_id: number
+  rate: number
+  rate_date: string
+}
+
+export interface DashboardFilter {
+  fiscal_year_id: number
+  month: number
+  fund_id: number
+  project_id: number
 }

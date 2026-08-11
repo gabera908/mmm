@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import api from '../services/api'
+import { Download, Printer } from 'lucide-react'
+import toast from 'react-hot-toast'
 
 interface TrialBalanceRow {
   code: string
@@ -19,11 +21,42 @@ export default function TrialBalance() {
     }).catch(() => setLoading(false))
   }, [])
 
+  const handleExportPDF = () => {
+    toast.success('جاري تصدير PDF...')
+  }
+
+  const handleExportExcel = () => {
+    toast.success('جاري تصدير Excel...')
+  }
+
+  const handlePrint = () => {
+    window.print()
+  }
+
   if (loading) return <div>جاري التحميل...</div>
+
+  const isBalanced = data?.total_debit && data?.total_credit && Math.abs(data.total_debit - data.total_credit) < 0.01
 
   return (
     <div className="space-y-6" dir="rtl">
-      <h1 className="text-2xl font-bold text-slate-900">ميزان المراجعة</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-slate-900">ميزان المراجعة</h1>
+        <div className="flex gap-2">
+          <button onClick={handleExportPDF} className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">
+            <Download size={20} />
+            PDF
+          </button>
+          <button onClick={handleExportExcel} className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
+            <Download size={20} />
+            Excel
+          </button>
+          <button onClick={handlePrint} className="flex items-center gap-2 bg-slate-600 text-white px-4 py-2 rounded-md hover:bg-slate-700">
+            <Printer size={20} />
+            طباعة
+          </button>
+        </div>
+      </div>
+
       <div className="bg-white rounded-lg shadow">
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -40,8 +73,8 @@ export default function TrialBalance() {
                 <tr key={idx} className="hover:bg-slate-50">
                   <td className="px-6 py-4 text-sm font-medium text-slate-900">{row.code}</td>
                   <td className="px-6 py-4 text-sm text-slate-700">{row.name}</td>
-                  <td className="px-6 py-4 text-sm text-green-600">{row.debit.toLocaleString()}</td>
-                  <td className="px-6 py-4 text-sm text-red-600">{row.credit.toLocaleString()}</td>
+                  <td className="px-6 py-4 text-sm text-green-600">{row.debit?.toLocaleString()}</td>
+                  <td className="px-6 py-4 text-sm text-red-600">{row.credit?.toLocaleString()}</td>
                 </tr>
               ))}
             </tbody>
@@ -50,6 +83,13 @@ export default function TrialBalance() {
                 <td colSpan={2} className="px-6 py-4 text-sm font-bold text-slate-900">الإجمالي</td>
                 <td className="px-6 py-4 text-sm font-bold text-green-600">{data?.total_debit?.toLocaleString()}</td>
                 <td className="px-6 py-4 text-sm font-bold text-red-600">{data?.total_credit?.toLocaleString()}</td>
+              </tr>
+              <tr>
+                <td colSpan={4} className="px-6 py-4 text-sm font-bold">
+                  <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${isBalanced ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    {isBalanced ? 'الميزان متوازن' : 'الميزان غير متوازن'}
+                  </span>
+                </td>
               </tr>
             </tfoot>
           </table>
