@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api import auth, users, roles, accounts, funds, donors, projects, journals, budgets, donations, currencies, fiscal_years, audit_logs, settings, backups, reports, ledger, trial_balance, health
+from app.api import auth, users, roles, accounts, funds, donors, projects, journals, budgets, donations, currencies, fiscal_years, audit_logs, backups, reports, ledger, trial_balance, health
+from app.api.settings import router as settings_router
 from app.core.database import engine, Base
 from app.models import user, account, fund, donor, project, journal, budget, donation, currency, fiscal_year, audit_log, backup, company_settings
 
@@ -31,7 +32,7 @@ app.include_router(donations.router, prefix="/api/donations", tags=["Donations"]
 app.include_router(currencies.router, prefix="/api/currencies", tags=["Currencies"])
 app.include_router(fiscal_years.router, prefix="/api/fiscal-years", tags=["Fiscal Years"])
 app.include_router(audit_logs.router, prefix="/api/audit-logs", tags=["Audit Logs"])
-app.include_router(settings.router, prefix="/api/settings", tags=["Settings"])
+app.include_router(settings_router, prefix="/api/settings", tags=["Settings"])
 app.include_router(backups.router, prefix="/api/backups", tags=["Backups"])
 app.include_router(reports.router, prefix="/api/reports", tags=["Reports"])
 app.include_router(ledger.router, tags=["General Ledger"])

@@ -5,7 +5,7 @@ from app.core.database import get_db
 from app.schemas.currency import CurrencyCreate, CurrencyUpdate, Currency, ExchangeRateCreate
 from app.core.deps import get_current_user
 
-router = APIRouter(prefix="/currencies", tags=["Currencies"])
+router = APIRouter(tags=["Currencies"])
 
 
 @router.post("/", response_model=Currency, status_code=status.HTTP_201_CREATED)

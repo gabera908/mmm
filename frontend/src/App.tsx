@@ -20,6 +20,7 @@ import Currencies from './pages/Currencies'
 import AuditLogs from './pages/AuditLogs'
 import Backups from './pages/Backups'
 import Settings from './pages/Settings'
+import ChangePassword from './pages/ChangePassword'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const token = useAuthStore((s) => s.token)
@@ -33,6 +34,7 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={token ? <Navigate to="/" replace /> : <Login />} />
+      <Route path="/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
       <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
         <Route index element={<Dashboard />} />
         <Route path="accounts" element={<Accounts />} />

@@ -5,7 +5,7 @@ from datetime import date
 from app.core.database import get_db
 from app.core.deps import get_current_user
 
-router = APIRouter(prefix="/trial-balance", tags=["Trial Balance"])
+router = APIRouter(tags=["Trial Balance"])
 
 
 @router.get("/")

@@ -6,7 +6,7 @@ from app.schemas.user import RoleCreate, RoleUpdate, Role
 from app.models.user import User as UserModel, Role as RoleModel
 from app.core.deps import get_current_active_superuser
 
-router = APIRouter(prefix="/roles", tags=["Roles"])
+router = APIRouter(tags=["Roles"])
 
 
 @router.post("/", response_model=Role, status_code=status.HTTP_201_CREATED)

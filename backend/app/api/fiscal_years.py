@@ -5,7 +5,7 @@ from app.core.database import get_db
 from app.schemas.fiscal_year import FiscalYearCreate, FiscalYearUpdate, FiscalYear, AccountingPeriodCreate
 from app.core.deps import get_current_user
 
-router = APIRouter(prefix="/fiscal-years", tags=["Fiscal Years"])
+router = APIRouter(tags=["Fiscal Years"])
 
 
 @router.post("/", response_model=FiscalYear, status_code=status.HTTP_201_CREATED)

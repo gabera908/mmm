@@ -8,7 +8,7 @@ from app.models.journal import JournalEntry as JournalEntryModel, JournalEntryLi
 from app.core.deps import get_current_user
 from app.services.journal_service import JournalService
 
-router = APIRouter(prefix="/journals", tags=["Journal Entries"])
+router = APIRouter(tags=["Journal Entries"])
 
 
 @router.post("/", response_model=JournalEntry, status_code=status.HTTP_201_CREATED)

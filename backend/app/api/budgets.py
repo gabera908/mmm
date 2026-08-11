@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 from app.core.database import get_db
 from app.schemas.budget import BudgetCreate, BudgetUpdate, Budget
 from app.core.deps import get_current_user
 
-router = APIRouter(prefix="/budgets", tags=["Budgets"])
+router = APIRouter(tags=["Budgets"])
 
 
 @router.post("/", response_model=Budget, status_code=status.HTTP_201_CREATED)

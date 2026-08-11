@@ -4,13 +4,13 @@ from sqlalchemy.orm import Session
 from datetime import timedelta
 from app.core.database import get_db
 from app.core.security import verify_password, get_password_hash, create_access_token, create_refresh_token
-from app.schemas.user import UserCreate, UserUpdate, User, Token
+from app.schemas.user import UserCreate, UserUpdate, User, Token, ChangePassword
 from app.models.user import User as UserModel
-from app.core.deps import get_current_active_superuser
+from app.core.deps import get_current_user
 from app.services.user_service import UserService
 from app.core.config import settings
 
-router = APIRouter(prefix="/auth", tags=["Authentication"])
+router = APIRouter(tags=["Authentication"])
 
 
 @router.post("/login", response_model=Token)
@@ -56,14 +56,13 @@ def refresh_token(token: str, db: Session = Depends(get_db)):
 
 @router.post("/change-password")
 def change_password(
-    old_password: str,
-    new_password: str,
-    current_user: UserModel = Depends(get_current_active_superuser),
+    password_in: ChangePassword,
+    current_user: UserModel = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    if not verify_password(old_password, current_user.hashed_password):
+    if not verify_password(password_in.old_password, current_user.hashed_password):
         raise HTTPException(status_code=400, detail="Incorrect old password")
-    current_user.hashed_password = get_password_hash(new_password)
+    current_user.hashed_password = get_password_hash(password_in.new_password)
     current_user.must_change_password = False
     db.commit()
     return {"message": "Password changed successfully"}

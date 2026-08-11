@@ -5,7 +5,7 @@ from app.core.database import get_db
 from app.schemas.donation import DonationCreate, DonationUpdate, Donation
 from app.core.deps import get_current_user
 
-router = APIRouter(prefix="/donations", tags=["Donations"])
+router = APIRouter(tags=["Donations"])
 
 
 @router.post("/", response_model=Donation, status_code=status.HTTP_201_CREATED)

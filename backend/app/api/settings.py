@@ -4,7 +4,7 @@ from app.core.database import get_db
 from app.schemas.company_settings import CompanySettingsUpdate
 from app.core.deps import get_current_active_superuser
 
-router = APIRouter(prefix="/settings", tags=["Settings"])
+router = APIRouter(tags=["Settings"])
 
 
 @router.get("/", response_model=dict)

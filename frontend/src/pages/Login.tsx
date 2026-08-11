@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useAuthStore } from '../stores/authStore'
+import api from '../services/api'
 import toast from 'react-hot-toast'
 
 const loginSchema = z.object({
@@ -25,8 +26,13 @@ export default function Login() {
     setLoading(true)
     try {
       await login(data.username, data.password)
+      const me = await api.get('/users/me').catch(() => null)
       toast.success('تم تسجيل الدخول بنجاح')
-      navigate('/')
+      if (me?.data?.must_change_password) {
+        navigate('/change-password')
+      } else {
+        navigate('/')
+      }
     } catch (error: any) {
       toast.error(error.response?.data?.detail || 'خطأ في تسجيل الدخول')
     } finally {

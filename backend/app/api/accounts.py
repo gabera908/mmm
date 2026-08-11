@@ -7,7 +7,7 @@ from app.models.account import Account as AccountModel, AccountType
 from app.core.deps import get_current_user
 from app.services.account_service import AccountService
 
-router = APIRouter(prefix="/accounts", tags=["Accounts"])
+router = APIRouter(tags=["Accounts"])
 
 
 @router.post("/", response_model=Account, status_code=status.HTTP_201_CREATED)

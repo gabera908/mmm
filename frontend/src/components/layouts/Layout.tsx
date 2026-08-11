@@ -1,6 +1,6 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
-import { useAuthStore } from '../stores/authStore'
-import { LayoutDashboard, BookOpen, FileText, Users, Wallet, PieChart, Settings, LogOut, Menu, X } from 'lucide-react'
+import { useAuthStore } from '../../stores/authStore'
+import { LayoutDashboard, BookOpen, FileText, Users, Wallet, PieChart, Settings, LogOut, Menu, X, Key } from 'lucide-react'
 import { useState } from 'react'
 
 const menuItems = [
@@ -22,6 +22,7 @@ const menuItems = [
   { path: '/audit-logs', label: 'سجل المراجعة', icon: FileText, adminOnly: true },
   { path: '/backups', label: 'النسخ الاحتياطي', icon: Settings, adminOnly: true },
   { path: '/settings', label: 'الإعدادات', icon: Settings, adminOnly: true },
+  { path: '/change-password', label: 'تغيير كلمة المرور', icon: Key },
 ]
 
 export default function Layout() {

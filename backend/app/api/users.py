@@ -4,9 +4,9 @@ from typing import List
 from app.core.database import get_db
 from app.schemas.user import UserCreate, UserUpdate, User
 from app.models.user import User as UserModel
-from app.core.deps import get_current_active_superuser
+from app.core.deps import get_current_user, get_current_active_superuser
 
-router = APIRouter(prefix="/users", tags=["Users"])
+router = APIRouter(tags=["Users"])
 
 
 @router.post("/", response_model=User, status_code=status.HTTP_201_CREATED)
@@ -35,6 +35,13 @@ def create_user(
     db.commit()
     db.refresh(user)
     return user
+
+
+@router.get("/me", response_model=User)
+def get_current_user_info(
+    current_user: UserModel = Depends(get_current_user),
+):
+    return current_user
 
 
 @router.get("/", response_model=List[User])
@@ -90,3 +97,10 @@ def delete_user(
     db.delete(user)
     db.commit()
     return None
+
+
+@router.get("/me", response_model=User)
+def get_current_user_info(
+    current_user: UserModel = Depends(get_current_user),
+):
+    return current_user

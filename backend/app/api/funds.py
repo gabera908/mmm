@@ -5,7 +5,7 @@ from app.core.database import get_db
 from app.schemas.fund import FundCreate, FundUpdate, Fund
 from app.core.deps import get_current_user
 
-router = APIRouter(prefix="/funds", tags=["Funds"])
+router = APIRouter(tags=["Funds"])
 
 
 @router.post("/", response_model=Fund, status_code=status.HTTP_201_CREATED)

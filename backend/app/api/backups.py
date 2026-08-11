@@ -5,7 +5,7 @@ from app.core.database import get_db
 from app.schemas.backup import BackupRecordCreate, BackupRecord
 from app.core.deps import get_current_active_superuser
 
-router = APIRouter(prefix="/backups", tags=["Backups"])
+router = APIRouter(tags=["Backups"])
 
 
 @router.post("/", response_model=BackupRecord, status_code=status.HTTP_201_CREATED)

@@ -10,9 +10,7 @@ class Settings(BaseSettings):
     POSTGRES_HOST: str = "postgres"
     POSTGRES_PORT: int = 5432
 
-    DATABASE_URL: str = (
-        f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
-    )
+    DATABASE_URL: str = "sqlite:///./test.db"
 
     JWT_SECRET_KEY: str = "change_me_jwt_secret_key"
     JWT_ALGORITHM: str = "HS256"

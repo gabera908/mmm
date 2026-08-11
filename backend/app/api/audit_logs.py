@@ -6,7 +6,7 @@ from app.core.database import get_db
 from app.schemas.audit_log import AuditLogCreate, AuditLog
 from app.core.deps import get_current_active_superuser
 
-router = APIRouter(prefix="/audit-logs", tags=["Audit Logs"])
+router = APIRouter(tags=["Audit Logs"])
 
 
 @router.get("/", response_model=List[AuditLog])
