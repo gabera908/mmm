@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { useAuthStore } from '../stores/authStore'
 import api from '../services/api'
 import toast from 'react-hot-toast'
+import { User } from '../types'
 
 const loginSchema = z.object({
   username: z.string().min(1, 'اسم المستخدم مطلوب'),
@@ -25,10 +26,20 @@ export default function Login() {
   const onSubmit = async (data: LoginForm) => {
     setLoading(true)
     try {
-      await login(data.username, data.password)
-      const me = await api.get('/users/me').catch(() => null)
+      const formData = new FormData()
+      formData.append('username', data.username)
+      formData.append('password', data.password)
+      const res = await api.post('/auth/login', formData)
+      const { access_token, refresh_token } = res.data
+      localStorage.setItem('token', access_token)
+      localStorage.setItem('refresh_token', refresh_token)
+      
+      const meRes = await api.get('/users/me')
+      const meUser = meRes.data as User
+      login(access_token, meUser)
+      
       toast.success('تم تسجيل الدخول بنجاح')
-      if (me?.data?.must_change_password) {
+      if (meUser.must_change_password) {
         navigate('/change-password')
       } else {
         navigate('/')

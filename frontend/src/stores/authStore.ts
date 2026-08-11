@@ -1,6 +1,5 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import axios from 'axios'
 
 interface User {
   id: number
@@ -14,28 +13,19 @@ interface User {
 interface AuthState {
   token: string | null
   user: User | null
-  login: (username: string, password: string) => Promise<void>
+  login: (token: string, user: User) => void
   logout: () => void
 }
-
-const API_BASE = '/api'
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       token: null,
       user: null,
-      login: async (username: string, password: string) => {
-        const formData = new FormData()
-        formData.append('username', username)
-        formData.append('password', password)
-        const res = await axios.post(`${API_BASE}/auth/login`, formData)
-        const { access_token, refresh_token } = res.data
-        localStorage.setItem('refresh_token', refresh_token)
-        set({ token: access_token })
+      login: (token: string, user: User) => {
+        set({ token, user })
       },
       logout: () => {
-        localStorage.removeItem('refresh_token')
         set({ token: null, user: null })
       },
     }),
@@ -45,11 +35,3 @@ export const useAuthStore = create<AuthState>()(
     }
   )
 )
-
-axios.interceptors.request.use((config) => {
-  const token = useAuthStore.getState().token
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
