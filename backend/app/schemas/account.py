@@ -65,7 +65,6 @@ class AccountInDB(AccountBase):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
     account_type: Optional[AccountType] = None
-    parent: Optional["Account"] = None
 
     model_config = ConfigDict(from_attributes=True)
 
