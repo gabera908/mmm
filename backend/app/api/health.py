@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from sqlalchemy import text
 from app.core.database import get_db
 from app.core.config import settings
 
@@ -14,8 +15,9 @@ def health_check():
 @router.get("/api/health")
 def api_health_check(db: Session = Depends(get_db)):
     try:
-        db.execute("SELECT 1")
+        db.execute(text("SELECT 1"))
         db_status = "ok"
-    except Exception:
-        db_status = "error"
+    except Exception as e:
+        db_status = f"error: {str(e)}"
     return {"status": "ok", "database": db_status, "app": settings.APP_NAME}
+
