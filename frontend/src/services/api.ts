@@ -4,6 +4,20 @@ const API_BASE = '/api'
 
 function getToken(): string | null {
   const token = localStorage.getItem('token')
+  if (!token) {
+    const stored = localStorage.getItem('auth-storage')
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored)
+        const state = parsed?.state
+        if (state?.token) {
+          return state.token
+        }
+      } catch {
+        // ignore
+      }
+    }
+  }
   return token
 }
 

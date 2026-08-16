@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from datetime import datetime
 
@@ -22,7 +22,7 @@ class CompanySettingsCreate(CompanySettingsBase):
 
 
 class CompanySettingsUpdate(BaseModel):
-    id: int
+    id: Optional[int] = None
     company_name: Optional[str] = None
     logo_path: Optional[str] = None
     address: Optional[str] = None
@@ -41,8 +41,7 @@ class CompanySettingsInDB(CompanySettingsBase):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class CompanySettings(CompanySettingsInDB):

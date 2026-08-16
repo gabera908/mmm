@@ -14,15 +14,17 @@ import Donors from './pages/Donors'
 import Donations from './pages/Donations'
 import Budgets from './pages/Budgets'
 import Reports from './pages/Reports'
-import Users from './pages/Users'
-import Roles from './pages/Roles'
-import FiscalYears from './pages/FiscalYears'
-import Currencies from './pages/Currencies'
-import AuditLogs from './pages/AuditLogs'
-import Backups from './pages/Backups'
-import Settings from './pages/Settings'
 import CostCenters from './pages/CostCenters'
-import ChangePassword from './pages/ChangePassword'
+import SettingsIndex from './pages/settings'
+import SettingsUsers from './pages/settings/Users'
+import SettingsRoles from './pages/settings/Roles'
+import SettingsFiscalYears from './pages/settings/FiscalYears'
+import SettingsCurrencies from './pages/settings/Currencies'
+import SettingsAuditLogs from './pages/settings/AuditLogs'
+import SettingsBackups from './pages/settings/Backups'
+import SettingsChangePassword from './pages/settings/ChangePassword'
+import SettingsSystem from './pages/settings/SystemManager'
+import SettingsGeneral from './pages/settings/GeneralSettings'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const token = useAuthStore((s) => s.token)
@@ -36,7 +38,7 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={token ? <Navigate to="/" replace /> : <Login />} />
-      <Route path="/change-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
+      <Route path="/change-password" element={<Navigate to="settings/change-password" replace />} />
       <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
         <Route index element={<Dashboard />} />
         <Route path="accounts" element={<Accounts />} />
@@ -50,14 +52,19 @@ function App() {
         <Route path="donations" element={<Donations />} />
         <Route path="budgets" element={<Budgets />} />
         <Route path="reports" element={<Reports />} />
-        <Route path="users" element={<Users />} />
-        <Route path="roles" element={<Roles />} />
-        <Route path="fiscal-years" element={<FiscalYears />} />
-        <Route path="currencies" element={<Currencies />} />
-        <Route path="audit-logs" element={<AuditLogs />} />
-        <Route path="backups" element={<Backups />} />
-        <Route path="settings" element={<Settings />} />
         <Route path="cost-centers" element={<CostCenters />} />
+        <Route path="settings" element={<SettingsIndex />}>
+          <Route index element={<Navigate to="general" replace />} />
+          <Route path="general" element={<SettingsGeneral />} />
+          <Route path="users" element={<SettingsUsers />} />
+          <Route path="roles" element={<SettingsRoles />} />
+          <Route path="fiscal-years" element={<SettingsFiscalYears />} />
+          <Route path="currencies" element={<SettingsCurrencies />} />
+          <Route path="audit-logs" element={<SettingsAuditLogs />} />
+          <Route path="backups" element={<SettingsBackups />} />
+          <Route path="change-password" element={<SettingsChangePassword />} />
+          <Route path="system" element={<SettingsSystem />} />
+        </Route>
       </Route>
     </Routes>
   )

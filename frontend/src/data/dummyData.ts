@@ -1,0 +1,100 @@
+export const dummyData = {
+  accounts: [
+    { id: 1, code: '1000', name: 'الأصول', account_type_id: 1, level: 1, is_active: true, is_header: true, parent_id: null },
+    { id: 2, code: '1100', name: 'الأصول المتداولة', account_type_id: 1, level: 2, is_active: true, is_header: true, parent_id: 1 },
+    { id: 3, code: '1110', name: 'النقدية', account_type_id: 1, level: 3, is_active: true, is_header: false, parent_id: 2 },
+    { id: 4, code: '1120', name: 'البنوك', account_type_id: 1, level: 3, is_active: true, is_header: false, parent_id: 2 },
+    { id: 5, code: '1200', name: 'الأصول الثابتة', account_type_id: 1, level: 2, is_active: true, is_header: true, parent_id: 1 },
+    { id: 6, code: '2000', name: 'الخصوم', account_type_id: 2, level: 1, is_active: true, is_header: true, parent_id: null },
+    { id: 7, code: '2100', name: 'الخصوم المتداولة', account_type_id: 2, level: 2, is_active: true, is_header: true, parent_id: 6 },
+    { id: 8, code: '3000', name: 'صافي الأصول', account_type_id: 3, level: 1, is_active: true, is_header: true, parent_id: null },
+    { id: 9, code: '4000', name: 'الإيرادات', account_type_id: 4, level: 1, is_active: true, is_header: true, parent_id: null },
+    { id: 10, code: '4100', name: 'التبرعات', account_type_id: 4, level: 2, is_active: true, is_header: false, parent_id: 9 },
+    { id: 11, code: '4200', name: 'الإيرادات الأخرى', account_type_id: 4, level: 2, is_active: true, is_header: false, parent_id: 9 },
+    { id: 12, code: '5000', name: 'المصروفات', account_type_id: 5, level: 1, is_active: true, is_header: true, parent_id: null },
+    { id: 13, code: '5100', name: 'الرواتب', account_type_id: 5, level: 2, is_active: true, is_header: false, parent_id: 12 },
+    { id: 14, code: '5200', name: 'الإيجار', account_type_id: 5, level: 2, is_active: true, is_header: false, parent_id: 12 },
+    { id: 15, code: '5300', name: 'المصروفات الإدارية', account_type_id: 5, level: 2, is_active: true, is_header: false, parent_id: 12 },
+  ],
+  funds: [
+    { id: 1, code: 'GEN', name: 'الصندوق العام', fund_type: 'unrestricted', is_active: true },
+    { id: 2, code: 'PRJ', name: 'صندوق المشاريع', fund_type: 'restricted', is_active: true },
+    { id: 3, code: 'EMG', name: 'صندوق الطوارئ', fund_type: 'temporarily_restricted', is_active: true },
+  ],
+  donors: [
+    { id: 1, name: 'أحمد محمد', donor_type: 'individual', phone: '0123456789', email: 'ahmed@example.com', address: 'القاهرة', notes: '', is_active: true },
+    { id: 2, name: 'شركة الخير', donor_type: 'company', phone: '0987654321', email: 'info@example.com', address: 'الجيزة', notes: '', is_active: true },
+    { id: 3, name: 'مؤسسة النور', donor_type: 'organization', phone: '0111222333', email: 'noor@example.com', address: 'الإسكندرية', notes: '', is_active: true },
+  ],
+  projects: [
+    { id: 1, code: 'PRJ-001', name: 'مشروع إغاثة', description: 'مشروع إغاثة للمتضررين', fund_id: 2, donor_id: 1, budget: 100000, start_date: '2025-01-01', end_date: '2025-12-31', status: 'active' },
+    { id: 2, code: 'PRJ-002', name: 'مشروع تعليمي', description: 'مشروع تعليمي للأطفال', fund_id: 2, donor_id: 2, budget: 50000, start_date: '2025-01-01', end_date: '2025-06-30', status: 'draft' },
+  ],
+  donations: [
+    { id: 1, donation_date: '2025-01-15', donor_id: 1, fund_id: 2, project_id: 1, amount: 5000, currency: 'EGP', payment_method: 'cash', reference: 'DON-001', notes: '' },
+    { id: 2, donation_date: '2025-02-01', donor_id: 2, fund_id: 2, project_id: 1, amount: 10000, currency: 'EGP', payment_method: 'bank_transfer', reference: 'DON-002', notes: '' },
+    { id: 3, donation_date: '2025-03-01', donor_id: 3, fund_id: 1, project_id: null, amount: 3000, currency: 'EGP', payment_method: 'cash', reference: 'DON-003', notes: '' },
+  ],
+  budgets: [
+    { id: 1, fiscal_year: 2025, account_id: 13, fund_id: 1, project_id: null, budget_amount: 120000, actual_amount: 100000, notes: '' },
+    { id: 2, fiscal_year: 2025, account_id: 14, fund_id: 1, project_id: null, budget_amount: 60000, actual_amount: 60000, notes: '' },
+    { id: 3, fiscal_year: 2025, account_id: 15, fund_id: 2, project_id: 1, budget_amount: 20000, actual_amount: 15000, notes: '' },
+  ],
+  journalEntries: [
+    {
+      id: 1,
+      entry_number: 'JE-001',
+      entry_date: '2025-01-15',
+      description: 'قيد افتتاحي',
+      currency: 'EGP',
+      exchange_rate: 1,
+      fund_id: 1,
+      project_id: null,
+      status: 'posted',
+      lines: [
+        { account_id: 3, fund_id: 1, project_id: null, cost_center_id: 0, debit: 100000, credit: 0, description: 'رصيد افتتاحي نقدي' },
+        { account_id: 8, fund_id: 1, project_id: null, cost_center_id: 0, debit: 0, credit: 100000, description: 'رصيد افتتاحي صافي الأصول' },
+      ],
+    },
+    {
+      id: 2,
+      entry_number: 'JE-002',
+      entry_date: '2025-02-01',
+      description: 'قيد تبرع',
+      currency: 'EGP',
+      exchange_rate: 1,
+      fund_id: 2,
+      project_id: 1,
+      status: 'draft',
+      lines: [
+        { account_id: 3, fund_id: 2, project_id: 1, cost_center_id: 0, debit: 5000, credit: 0, description: 'تبرع نقدي' },
+        { account_id: 10, fund_id: 2, project_id: 1, cost_center_id: 0, debit: 0, credit: 5000, description: 'إيرادات تبرعات' },
+      ],
+    },
+  ],
+  costCenters: [
+    { id: 1, code: 'CC-001', name: '???? ?????', description: '?????? ??????? ???????', fund_id: 1, is_active: true },
+    { id: 2, code: 'CC-002', name: '???? ????? ???????', description: '???? ????? ????? ???????', fund_id: 2, is_active: true },
+    { id: 3, code: 'CC-003', name: '???? ????? ??????', description: '???? ????? ????? ??????', fund_id: 2, is_active: true },
+  ],
+  users: [
+    { id: 1, username: 'admin', full_name: '???? ??????', email: 'admin@example.com', role_id: 1, role: { id: 1, name: '????' }, is_active: true, is_superuser: true, must_change_password: false },
+    { id: 2, username: 'accountant', full_name: '?????', email: 'accountant@example.com', role_id: 2, role: { id: 2, name: '?????' }, is_active: true, is_superuser: false, must_change_password: false },
+    { id: 3, username: 'user', full_name: '??????', email: 'user@example.com', role_id: 3, role: { id: 3, name: '??????' }, is_active: true, is_superuser: false, must_change_password: true },
+  ],
+  roles: [
+    { id: 1, name: '????', description: '??????? ????? ??????', permissions: ['users:read', 'users:write', 'roles:read', 'roles:write', 'settings:read', 'settings:write'] },
+    { id: 2, name: '?????', description: '??????? ????????', permissions: ['journals:read', 'journals:write', 'accounts:read', 'reports:read'] },
+    { id: 3, name: '??????', description: '??????? ??????', permissions: ['journals:read', 'accounts:read'] },
+  ],
+  fiscalYears: [
+    { id: 1, name: '2025', start_date: '2025-01-01', end_date: '2025-12-31', is_active: true },
+    { id: 2, name: '2024', start_date: '2024-01-01', end_date: '2024-12-31', is_active: false },
+  ],
+  currencies: [
+    { id: 1, name: '???? ????', code: 'EGP', exchange_rate: 1, is_base_currency: true, is_active: true },
+    { id: 2, name: '????? ??????', code: 'USD', exchange_rate: 48.5, is_base_currency: false, is_active: true },
+    { id: 3, name: '????', code: 'EUR', exchange_rate: 52.3, is_base_currency: false, is_active: true },
+  ],
+}
+

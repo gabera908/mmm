@@ -126,6 +126,17 @@ class JournalService:
         self.db.commit()
         return True
 
+    def cancel(self, journal_id: int):
+        entry = self.get_by_id(journal_id)
+        if not entry:
+            return None
+        if entry.status != "draft":
+            raise HTTPException(status_code=400, detail="Can only cancel draft entries")
+        entry.status = "cancelled"
+        self.db.commit()
+        self.db.refresh(entry)
+        return entry
+
     def _generate_entry_number(self):
         last_entry = self.db.query(JournalEntryModel).order_by(JournalEntryModel.id.desc()).first()
         if last_entry:

@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 from app.core.database import Base, get_db
 from app.main import app
+from app.scripts.seed import seed_roles, seed_users
 
 SQLALCHEMY_DATABASE_URL = "sqlite://"
 
@@ -11,6 +12,11 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base.metadata.create_all(bind=engine)
+
+db = TestingSessionLocal()
+seed_roles(db)
+seed_users(db)
+db.close()
 
 
 def override_get_db():

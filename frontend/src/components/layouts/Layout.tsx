@@ -1,7 +1,7 @@
-import { Outlet, NavLink, useNavigate } from 'react-router-dom'
+import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useAuthStore } from '../../stores/authStore'
-import { LayoutDashboard, BookOpen, FileText, Users, Wallet, PieChart, Settings, LogOut, Menu, X, Key, DollarSign } from 'lucide-react'
-import { useState } from 'react'
+import { LayoutDashboard, BookOpen, FileText, Users, Wallet, PieChart, Settings, LogOut, Menu, X, Key, DollarSign, ChevronDown } from 'lucide-react'
+import { useState, useEffect } from 'react'
 
 const menuItems = [
   { path: '/', label: 'لوحة التحكم', icon: LayoutDashboard },
@@ -17,24 +17,46 @@ const menuItems = [
   { path: '/budgets', label: 'الموازنات', icon: PieChart },
   { path: '/reports', label: 'التقارير', icon: FileText },
   { path: '/cost-centers', label: 'مراكز التكلفة', icon: PieChart },
-  { path: '/users', label: 'المستخدمون', icon: Users, adminOnly: true },
-  { path: '/roles', label: 'الصلاحيات', icon: Settings, adminOnly: true },
-  { path: '/fiscal-years', label: 'السنوات المالية', icon: Settings, adminOnly: true },
-  { path: '/currencies', label: 'العملات', icon: DollarSign, adminOnly: true },
-  { path: '/audit-logs', label: 'سجل المراجعة', icon: FileText, adminOnly: true },
-  { path: '/backups', label: 'النسخ الاحتياطي', icon: Settings, adminOnly: true },
-  { path: '/settings', label: 'الإعدادات', icon: Settings, adminOnly: true },
-  { path: '/change-password', label: 'تغيير كلمة المرور', icon: Key },
+]
+
+const settingsMenuItems = [
+  { path: '/settings/general', label: 'إعدادات عامة', icon: Settings },
+  { path: '/settings/users', label: 'المستخدمون', icon: Users, adminOnly: true },
+  { path: '/settings/roles', label: 'الصلاحيات', icon: Settings, adminOnly: true },
+  { path: '/settings/fiscal-years', label: 'السنوات المالية', icon: Settings, adminOnly: true },
+  { path: '/settings/currencies', label: 'العملات', icon: DollarSign, adminOnly: true },
+  { path: '/settings/audit-logs', label: 'سجل المراجعة', icon: FileText, adminOnly: true },
+  { path: '/settings/backups', label: 'النسخ الاحتياطي', icon: Settings, adminOnly: true },
+  { path: '/settings/change-password', label: 'تغيير كلمة المرور', icon: Key },
+  { path: '/settings/system', label: 'مدير النظام', icon: Settings, adminOnly: true },
 ]
 
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const { user, logout } = useAuthStore()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => {
+    if (location.pathname.startsWith('/settings')) {
+      setSettingsOpen(true)
+    }
+  }, [location.pathname])
 
   const handleLogout = () => {
     logout()
     navigate('/login')
+  }
+
+  const isSettingsActive = location.pathname.startsWith('/settings')
+
+  const handleSettingsClick = () => {
+    const newOpen = !settingsOpen
+    setSettingsOpen(newOpen)
+    if (newOpen && !location.pathname.startsWith('/settings')) {
+      navigate('/settings/general')
+    }
   }
 
   return (
@@ -49,7 +71,6 @@ export default function Layout() {
           </div>
           <nav className="p-4 space-y-1">
             {menuItems.map((item) => {
-              if (item.adminOnly && !user?.is_superuser) return null
               const Icon = item.icon
               return (
                 <NavLink
@@ -65,6 +86,39 @@ export default function Layout() {
                 </NavLink>
               )
             })}
+
+            {user?.is_superuser && (
+              <div className="pt-2">
+                <button
+                  onClick={handleSettingsClick}
+                  className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors w-full ${isSettingsActive ? 'bg-slate-800 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white'}`}
+                >
+                  <Settings size={20} />
+                  الإعدادات
+                  <ChevronDown size={16} className={`mr-auto transition-transform ${settingsOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {settingsOpen && (
+                  <div className="mt-1 space-y-1 pr-6">
+                    {settingsMenuItems.filter(item => !item.adminOnly || user?.is_superuser).map((item) => {
+                      const Icon = item.icon
+                      return (
+                        <NavLink
+                          key={item.path}
+                          to={item.path}
+                          className={({ isActive }) =>
+                            `flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors ${isActive ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`
+                          }
+                          onClick={() => setSidebarOpen(false)}
+                        >
+                          <Icon size={16} />
+                          {item.label}
+                        </NavLink>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
           </nav>
           <div className="absolute bottom-0 w-full p-4 border-t border-slate-700">
             <div className="flex items-center gap-3 mb-3">

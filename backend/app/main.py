@@ -6,7 +6,7 @@ from app.api.settings import router as settings_router
 from app.core.database import engine, Base
 from app.models import user, account, fund, donor, project, journal, budget, donation, currency, fiscal_year, audit_log, backup, company_settings
 
-app = FastAPI(title=settings.APP_NAME, version=settings.APP_VERSION)
+app = FastAPI(title=settings.APP_NAME, version=settings.APP_VERSION, redirect_slashes=True)
 
 app.add_middleware(
     CORSMiddleware,
@@ -15,6 +15,28 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+class TrailingSlashMiddleware:
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] == "http":
+            path = scope["path"]
+            # Get request app to retrieve routes
+            app = scope.get("app")
+            if app:
+                app_routes = {route.path for route in app.routes}
+                if path not in app_routes and f"{path}/" in app_routes:
+                    scope["path"] = f"{path}/"
+                    if "raw_path" in scope:
+                        scope["raw_path"] = f"{scope['raw_path'].decode('utf-8')}/".encode('utf-8')
+        await self.app(scope, receive, send)
+
+app.add_middleware(TrailingSlashMiddleware)
+
+
 
 Base.metadata.create_all(bind=engine)
 

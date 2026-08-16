@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from datetime import datetime, date
 from decimal import Decimal
@@ -22,7 +22,7 @@ class DonationCreate(DonationBase):
 
 
 class DonationUpdate(BaseModel):
-    id: int
+    id: Optional[int] = None
     donation_date: Optional[date] = None
     donor_id: Optional[int] = None
     fund_id: Optional[int] = None
@@ -41,8 +41,7 @@ class DonationInDB(DonationBase):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class Donation(DonationInDB):

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from datetime import datetime
 
@@ -18,7 +18,7 @@ class BudgetCreate(BudgetBase):
 
 
 class BudgetUpdate(BaseModel):
-    id: int
+    id: Optional[int] = None
     fiscal_year: Optional[int] = None
     account_id: Optional[int] = None
     fund_id: Optional[int] = None
@@ -33,8 +33,7 @@ class BudgetInDB(BudgetBase):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class Budget(BudgetInDB):

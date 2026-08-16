@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import model_validator
 
 
 class Settings(BaseSettings):
@@ -10,7 +11,7 @@ class Settings(BaseSettings):
     POSTGRES_HOST: str = "postgres"
     POSTGRES_PORT: int = 5432
 
-    DATABASE_URL: str = "sqlite:///./test.db"
+    DATABASE_URL: str = ""
 
     JWT_SECRET_KEY: str = "change_me_jwt_secret_key"
     JWT_ALGORITHM: str = "HS256"
@@ -26,6 +27,15 @@ class Settings(BaseSettings):
 
     BACKUP_SCHEDULE: str = "0 2 * * *"
     BACKUP_RETENTION_DAYS: int = 30
+
+    @model_validator(mode="after")
+    def assemble_db_url(self) -> "Settings":
+        if not self.DATABASE_URL:
+            self.DATABASE_URL = (
+                f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
+                f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+            )
+        return self
 
 
 settings = Settings()

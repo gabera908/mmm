@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import api from '../services/api'
-import { Plus, Trash2, Eye } from 'lucide-react'
+import { Plus, Trash2, Eye, Edit } from 'lucide-react'
 import { Donor } from '../types'
 import toast from 'react-hot-toast'
 
@@ -80,7 +80,7 @@ export default function Donors() {
                     <Eye size={16} />
                   </button>
                   <button onClick={() => openModal(donor)} className="text-blue-600 hover:text-blue-800 ml-2" title="تعديل">
-                    <Plus size={16} />
+                    <Edit size={16} />
                   </button>
                   <button onClick={() => handleDelete(donor.id)} className="text-red-600 hover:text-red-800">
                     <Trash2 size={16} />

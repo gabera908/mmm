@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from datetime import datetime
 
@@ -16,7 +16,7 @@ class FundCreate(FundBase):
 
 
 class FundUpdate(BaseModel):
-    id: int
+    id: Optional[int] = None
     code: Optional[str] = None
     name: Optional[str] = None
     fund_type: Optional[str] = None
@@ -29,8 +29,7 @@ class FundInDB(FundBase):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class Fund(FundInDB):

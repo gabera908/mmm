@@ -5,6 +5,7 @@ from app.core.database import get_db
 from app.schemas.user import UserCreate, UserUpdate, User
 from app.models.user import User as UserModel
 from app.core.deps import get_current_user, get_current_active_superuser
+from app.core.security import get_password_hash
 
 router = APIRouter(tags=["Users"])
 
@@ -21,7 +22,6 @@ def create_user(
     db_user = db.query(UserModel).filter(UserModel.email == user_in.email).first()
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
-    from app.core.security import get_password_hash
     user = UserModel(
         username=user_in.username,
         email=user_in.email,
@@ -78,6 +78,10 @@ def update_user(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     update_data = user_in.model_dump(exclude_unset=True)
+    if "password" in update_data and update_data["password"]:
+        user.hashed_password = get_password_hash(update_data.pop("password"))
+    elif "password" in update_data:
+        update_data.pop("password")
     for field, value in update_data.items():
         setattr(user, field, value)
     db.commit()
@@ -97,10 +101,3 @@ def delete_user(
     db.delete(user)
     db.commit()
     return None
-
-
-@router.get("/me", response_model=User)
-def get_current_user_info(
-    current_user: UserModel = Depends(get_current_user),
-):
-    return current_user

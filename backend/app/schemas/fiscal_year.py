@@ -1,22 +1,28 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List
 from datetime import datetime, date
 
 
 class FiscalYearBase(BaseModel):
     year: int
+    name: Optional[str] = None
     start_date: date
     end_date: date
     is_closed: bool = False
 
 
-class FiscalYearCreate(FiscalYearBase):
-    pass
+class FiscalYearCreate(BaseModel):
+    year: Optional[int] = None
+    name: Optional[str] = None
+    start_date: date
+    end_date: date
+    is_closed: bool = False
 
 
 class FiscalYearUpdate(BaseModel):
-    id: int
+    id: Optional[int] = None
     year: Optional[int] = None
+    name: Optional[str] = None
     start_date: Optional[date] = None
     end_date: Optional[date] = None
     is_closed: Optional[bool] = None
@@ -35,7 +41,7 @@ class AccountingPeriodCreate(AccountingPeriodBase):
 
 
 class AccountingPeriodUpdate(BaseModel):
-    id: int
+    id: Optional[int] = None
     fiscal_year_id: Optional[int] = None
     name: Optional[str] = None
     start_date: Optional[date] = None
@@ -49,8 +55,7 @@ class AccountingPeriodInDB(AccountingPeriodBase):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class AccountingPeriod(AccountingPeriodInDB):
@@ -64,8 +69,7 @@ class FiscalYearInDB(FiscalYearBase):
     updated_at: Optional[datetime] = None
     periods: List[AccountingPeriod] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class FiscalYear(FiscalYearInDB):

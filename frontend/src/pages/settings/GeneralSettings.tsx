@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import api from '../services/api'
+import api from '../../services/api'
 import { Save, Upload, Building2, Phone, Mail, MapPin, DollarSign, Calendar, Hash, FileText, Clock } from 'lucide-react'
 import toast from 'react-hot-toast'
 
@@ -17,7 +17,7 @@ interface SettingsData {
   backup_retention_days: number
 }
 
-export default function Settings() {
+export default function GeneralSettings() {
   const [settings, setSettings] = useState<SettingsData | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -76,7 +76,7 @@ export default function Settings() {
   return (
     <div className="space-y-6" dir="rtl">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-slate-900">إعدادات المؤسسة</h1>
+        <h1 className="text-2xl font-bold text-slate-900">إعدادات عامة</h1>
         <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50">
           <Save size={20} />
           {saving ? 'جاري الحفظ...' : 'حفظ الإعدادات'}

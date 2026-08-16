@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from datetime import datetime
 
@@ -13,8 +13,8 @@ class AccountTypeCreate(AccountTypeBase):
     pass
 
 
-class AccountTypeUpdate(AccountTypeBase):
-    id: int
+class AccountTypeUpdate(BaseModel):
+    id: Optional[int] = None
     name: Optional[str] = None
     code: Optional[str] = None
 
@@ -24,8 +24,7 @@ class AccountTypeInDB(AccountTypeBase):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class AccountType(AccountTypeInDB):
@@ -49,7 +48,7 @@ class AccountCreate(AccountBase):
 
 
 class AccountUpdate(BaseModel):
-    id: int
+    id: Optional[int] = None
     code: Optional[str] = None
     name: Optional[str] = None
     name_en: Optional[str] = None
@@ -68,8 +67,7 @@ class AccountInDB(AccountBase):
     account_type: Optional[AccountType] = None
     parent: Optional["Account"] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class Account(AccountInDB):

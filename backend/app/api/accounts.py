@@ -70,6 +70,20 @@ def update_account(
     return account
 
 
+@router.patch("/{account_id}", response_model=Account)
+def patch_account(
+    account_id: int,
+    account_in: AccountUpdate,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    service = AccountService(db)
+    account = service.update(account_id, account_in)
+    if not account:
+        raise HTTPException(status_code=404, detail="Account not found")
+    return account
+
+
 @router.delete("/{account_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_account(
     account_id: int,

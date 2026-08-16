@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import api from '../services/api'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2, Edit } from 'lucide-react'
 import { Fund } from '../types'
 import toast from 'react-hot-toast'
 
@@ -62,7 +62,7 @@ export default function Funds() {
                 </td>
                 <td className="px-6 py-4 text-sm">
                   <button onClick={() => openModal(fund)} className="text-blue-600 hover:text-blue-800 ml-2">
-                    <Plus size={16} />
+                    <Edit size={16} />
                   </button>
                   <button onClick={() => handleDelete(fund.id)} className="text-red-600 hover:text-red-800">
                     <Trash2 size={16} />

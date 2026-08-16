@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List
 from datetime import datetime, date
 from decimal import Decimal
@@ -11,7 +11,7 @@ class JournalEntryLineBase(BaseModel):
     debit: Decimal = Decimal("0")
     credit: Decimal = Decimal("0")
     description: Optional[str] = None
-    line_number: int
+    line_number: Optional[int] = 1
 
 
 class JournalEntryLineCreate(JournalEntryLineBase):
@@ -19,7 +19,7 @@ class JournalEntryLineCreate(JournalEntryLineBase):
 
 
 class JournalEntryLineUpdate(BaseModel):
-    id: int
+    id: Optional[int] = None
     account_id: Optional[int] = None
     fund_id: Optional[int] = None
     project_id: Optional[int] = None
@@ -34,8 +34,7 @@ class JournalEntryLineInDB(JournalEntryLineBase):
     journal_entry_id: int
     created_at: Optional[datetime] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class JournalEntryLine(JournalEntryLineInDB):
@@ -57,7 +56,7 @@ class JournalEntryCreate(JournalEntryBase):
 
 
 class JournalEntryUpdate(BaseModel):
-    id: int
+    id: Optional[int] = None
     entry_date: Optional[date] = None
     description: Optional[str] = None
     reference: Optional[str] = None
@@ -79,8 +78,7 @@ class JournalEntryInDB(JournalEntryBase):
     updated_at: Optional[datetime] = None
     lines: List[JournalEntryLine] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class JournalEntry(JournalEntryInDB):

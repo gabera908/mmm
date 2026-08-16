@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from datetime import datetime
 
@@ -14,9 +14,12 @@ class RoleCreate(RoleBase):
     pass
 
 
-class RoleUpdate(RoleBase):
-    id: int
+class RoleUpdate(BaseModel):
+    id: Optional[int] = None
     name: Optional[str] = None
+    description: Optional[str] = None
+    permissions: Optional[str] = None
+    is_active: Optional[bool] = None
 
 
 class RoleInDB(RoleBase):
@@ -24,8 +27,7 @@ class RoleInDB(RoleBase):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class Role(RoleInDB):
@@ -49,8 +51,10 @@ class UserUpdate(BaseModel):
     email: Optional[str] = None
     full_name: Optional[str] = None
     role_id: Optional[int] = None
+    password: Optional[str] = None
     is_active: Optional[bool] = None
     is_superuser: Optional[bool] = None
+    must_change_password: Optional[bool] = None
 
 
 class UserInDB(UserBase):
@@ -62,8 +66,7 @@ class UserInDB(UserBase):
     updated_at: Optional[datetime] = None
     role: Optional[Role] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class User(UserInDB):

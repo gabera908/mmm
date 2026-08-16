@@ -74,6 +74,19 @@ def reverse_journal(
     return journal
 
 
+@router.post("/{journal_entry_id}/cancel", response_model=JournalEntry)
+def cancel_journal(
+    journal_entry_id: int,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    service = JournalService(db, current_user.id)
+    journal = service.cancel(journal_entry_id)
+    if not journal:
+        raise HTTPException(status_code=404, detail="Journal entry not found")
+    return journal
+
+
 @router.delete("/{journal_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_journal(
     journal_id: int,
