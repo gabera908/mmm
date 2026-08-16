@@ -11,7 +11,15 @@ class AccountService:
     def create(self, account_in: AccountCreate):
         db_account = self.db.query(AccountModel).filter(AccountModel.code == account_in.code).first()
         if db_account:
-            raise HTTPException(status_code=400, detail="Account code already exists")
+            raise HTTPException(status_code=400, detail="كود الحساب موجود بالفعل")
+
+        from app.models.account import AccountType
+        acc_type = self.db.query(AccountType).filter(AccountType.id == account_in.account_type_id).first()
+        if not acc_type:
+            first_type = self.db.query(AccountType).first()
+            if first_type:
+                account_in.account_type_id = first_type.id
+
         account = AccountModel(**account_in.model_dump())
         self.db.add(account)
         self.db.commit()
