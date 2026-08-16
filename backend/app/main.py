@@ -27,7 +27,7 @@ class TrailingSlashMiddleware:
             # Get request app to retrieve routes
             app = scope.get("app")
             if app:
-                app_routes = {route.path for route in app.routes}
+                app_routes = {getattr(route, "path", None) for route in app.routes if getattr(route, "path", None) is not None}
                 if path not in app_routes and f"{path}/" in app_routes:
                     scope["path"] = f"{path}/"
                     if "raw_path" in scope:
