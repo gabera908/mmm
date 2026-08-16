@@ -8,7 +8,7 @@ from app.core.deps import get_current_user
 router = APIRouter(tags=["Donors"])
 
 
-@router.post("/", response_model=Donor, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=Donor, status_code=status.HTTP_201_CREATED)
 def create_donor(
     donor_in: DonorCreate,
     db: Session = Depends(get_db),
@@ -22,7 +22,7 @@ def create_donor(
     return donor
 
 
-@router.get("/", response_model=List[Donor])
+@router.get("", response_model=List[Donor])
 def read_donors(
     skip: int = 0,
     limit: int = 100,

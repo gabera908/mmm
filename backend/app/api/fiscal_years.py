@@ -8,7 +8,7 @@ from app.core.deps import get_current_user
 router = APIRouter(tags=["Fiscal Years"])
 
 
-@router.post("/", response_model=FiscalYear, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=FiscalYear, status_code=status.HTTP_201_CREATED)
 def create_fiscal_year(
     year_in: FiscalYearCreate,
     db: Session = Depends(get_db),
@@ -25,7 +25,7 @@ def create_fiscal_year(
     return year
 
 
-@router.get("/", response_model=List[FiscalYear])
+@router.get("", response_model=List[FiscalYear])
 def read_fiscal_years(
     skip: int = 0,
     limit: int = 100,

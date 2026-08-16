@@ -9,7 +9,7 @@ from app.core.deps import get_current_active_superuser
 router = APIRouter(tags=["Roles"])
 
 
-@router.post("/", response_model=Role, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=Role, status_code=status.HTTP_201_CREATED)
 def create_role(
     role_in: RoleCreate,
     db: Session = Depends(get_db),
@@ -25,7 +25,7 @@ def create_role(
     return role
 
 
-@router.get("/", response_model=List[Role])
+@router.get("", response_model=List[Role])
 def read_roles(
     skip: int = 0,
     limit: int = 100,

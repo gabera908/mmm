@@ -8,7 +8,7 @@ from app.core.deps import get_current_active_superuser
 router = APIRouter(tags=["Backups"])
 
 
-@router.post("/", response_model=BackupRecord, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=BackupRecord, status_code=status.HTTP_201_CREATED)
 def create_backup(
     db: Session = Depends(get_db),
     current_user=Depends(get_current_active_superuser),
@@ -52,7 +52,7 @@ def create_backup(
     return record
 
 
-@router.get("/", response_model=List[BackupRecord])
+@router.get("", response_model=List[BackupRecord])
 def read_backups(
     skip: int = 0,
     limit: int = 100,

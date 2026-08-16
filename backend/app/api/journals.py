@@ -11,7 +11,7 @@ from app.services.journal_service import JournalService
 router = APIRouter(tags=["Journal Entries"])
 
 
-@router.post("/", response_model=JournalEntry, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=JournalEntry, status_code=status.HTTP_201_CREATED)
 def create_journal(
     journal_in: JournalEntryCreate,
     db: Session = Depends(get_db),
@@ -21,7 +21,7 @@ def create_journal(
     return service.create(journal_in)
 
 
-@router.get("/", response_model=List[JournalEntry])
+@router.get("", response_model=List[JournalEntry])
 def read_journals(
     skip: int = 0,
     limit: int = 100,

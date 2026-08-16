@@ -9,7 +9,7 @@ from app.core.deps import get_current_active_superuser
 router = APIRouter(tags=["Audit Logs"])
 
 
-@router.get("/", response_model=List[AuditLog])
+@router.get("", response_model=List[AuditLog])
 def read_audit_logs(
     skip: int = 0,
     limit: int = 100,

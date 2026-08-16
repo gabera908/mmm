@@ -7,7 +7,7 @@ from app.core.deps import get_current_active_superuser
 router = APIRouter(tags=["Settings"])
 
 
-@router.get("/", response_model=dict)
+@router.get("", response_model=dict)
 def get_settings(
     db: Session = Depends(get_db),
     current_user=Depends(get_current_active_superuser),
@@ -19,7 +19,7 @@ def get_settings(
     return {c.name: getattr(settings, c.name) for c in settings.__table__.columns}
 
 
-@router.put("/", response_model=dict)
+@router.put("", response_model=dict)
 def update_settings(
     settings_in: CompanySettingsUpdate,
     db: Session = Depends(get_db),

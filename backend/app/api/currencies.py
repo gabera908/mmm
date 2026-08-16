@@ -8,7 +8,7 @@ from app.core.deps import get_current_user
 router = APIRouter(tags=["Currencies"])
 
 
-@router.post("/", response_model=Currency, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=Currency, status_code=status.HTTP_201_CREATED)
 def create_currency(
     currency_in: CurrencyCreate,
     db: Session = Depends(get_db),
@@ -25,7 +25,7 @@ def create_currency(
     return currency
 
 
-@router.get("/", response_model=List[Currency])
+@router.get("", response_model=List[Currency])
 def read_currencies(
     skip: int = 0,
     limit: int = 100,

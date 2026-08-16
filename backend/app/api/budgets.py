@@ -8,7 +8,7 @@ from app.core.deps import get_current_user
 router = APIRouter(tags=["Budgets"])
 
 
-@router.post("/", response_model=Budget, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=Budget, status_code=status.HTTP_201_CREATED)
 def create_budget(
     budget_in: BudgetCreate,
     db: Session = Depends(get_db),
@@ -22,7 +22,7 @@ def create_budget(
     return budget
 
 
-@router.get("/", response_model=List[Budget])
+@router.get("", response_model=List[Budget])
 def read_budgets(
     skip: int = 0,
     limit: int = 100,

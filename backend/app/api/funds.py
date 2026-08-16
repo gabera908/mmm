@@ -8,7 +8,7 @@ from app.core.deps import get_current_user
 router = APIRouter(tags=["Funds"])
 
 
-@router.post("/", response_model=Fund, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=Fund, status_code=status.HTTP_201_CREATED)
 def create_fund(
     fund_in: FundCreate,
     db: Session = Depends(get_db),
@@ -25,7 +25,7 @@ def create_fund(
     return fund
 
 
-@router.get("/", response_model=List[Fund])
+@router.get("", response_model=List[Fund])
 def read_funds(
     skip: int = 0,
     limit: int = 100,

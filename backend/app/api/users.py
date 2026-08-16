@@ -10,7 +10,7 @@ from app.core.security import get_password_hash
 router = APIRouter(tags=["Users"])
 
 
-@router.post("/", response_model=User, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=User, status_code=status.HTTP_201_CREATED)
 def create_user(
     user_in: UserCreate,
     db: Session = Depends(get_db),
@@ -44,7 +44,7 @@ def get_current_user_info(
     return current_user
 
 
-@router.get("/", response_model=List[User])
+@router.get("", response_model=List[User])
 def read_users(
     skip: int = 0,
     limit: int = 100,
