@@ -154,6 +154,9 @@ def seed_company_settings(db: Session):
 def main():
     db = SessionLocal()
     try:
+        if db.query(User).filter(User.username == "admin").first():
+            print("Database already contains admin user. Skipping seed.")
+            return
         print("Seeding database...")
         seed_roles(db)
         seed_users(db)
