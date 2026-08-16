@@ -3,11 +3,13 @@ from sqlalchemy.orm import sessionmaker, Session, declarative_base
 from app.core.config import settings
 
 connect_args = {}
-engine_kwargs = {
-    "pool_pre_ping": True,
-    "pool_size": 10,
-    "max_overflow": 20,
-}
+engine_kwargs = {"pool_pre_ping": True}
+
+if settings.DATABASE_URL.startswith("postgresql"):
+    engine_kwargs.update({
+        "pool_size": 10,
+        "max_overflow": 20,
+    })
 
 engine = create_engine(settings.DATABASE_URL, connect_args=connect_args, **engine_kwargs)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
