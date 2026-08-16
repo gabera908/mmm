@@ -10,7 +10,7 @@ from app.services.account_service import AccountService
 router = APIRouter(tags=["Accounts"])
 
 
-@router.post("/", response_model=Account, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=Account, status_code=status.HTTP_201_CREATED)
 def create_account(
     account_in: AccountCreate,
     db: Session = Depends(get_db),
@@ -20,7 +20,7 @@ def create_account(
     return service.create(account_in)
 
 
-@router.get("/", response_model=List[Account])
+@router.get("", response_model=List[Account])
 def read_accounts(
     skip: int = 0,
     limit: int = 100,
