@@ -245,7 +245,9 @@ export default function Accounts() {
                 setShowModal(false)
                 fetchAccounts()
               }).catch((error: any) => {
-                toast.error(error.response?.data?.detail || 'خطأ في الحفظ')
+                const detail = error.response?.data?.detail
+                const msg = typeof detail === 'string' ? detail : (Array.isArray(detail) ? detail.map((d: any) => d.msg || d).join(', ') : 'خطأ في الحفظ')
+                toast.error(msg)
               })
             }} className="space-y-4">
               <div>
