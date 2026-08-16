@@ -8,7 +8,7 @@ from app.core.deps import get_current_user
 router = APIRouter(tags=["Trial Balance"])
 
 
-@router.get("/")
+@router.get("/api/trial-balance")
 def get_trial_balance(
     start_date: Optional[date] = None,
     end_date: Optional[date] = None,

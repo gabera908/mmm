@@ -8,7 +8,7 @@ from app.core.deps import get_current_user
 router = APIRouter(tags=["General Ledger"])
 
 
-@router.get("/")
+@router.get("/api/ledger")
 def get_general_ledger(
     account_id: Optional[int] = None,
     start_date: Optional[date] = None,
