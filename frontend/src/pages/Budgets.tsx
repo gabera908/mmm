@@ -101,7 +101,7 @@ export default function Budgets() {
             <tr>
               <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">السنة</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">الحساب</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">Fund</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">الصندوق / الاحتياطي</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">المشروع</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">الموازنة</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">الفعلية</th>
@@ -192,7 +192,7 @@ export default function Budgets() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Fund</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1">الصندوق / الاحتياطي</label>
                 <select name="fund_id" defaultValue={editingBudget?.fund_id || ''} className="w-full px-3 py-2 border border-slate-300 rounded-md">
                   <option value="">اختر</option>
                   {funds.map((f) => (

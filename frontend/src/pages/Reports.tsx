@@ -11,7 +11,7 @@ const reportTypes = [
   { id: 'general_ledger', label: 'الأستاذ العام' },
   { id: 'account_statement', label: 'كشف حساب' },
   { id: 'budget_vs_actual', label: 'الموازنة مقابل الفعلي' },
-  { id: 'funds', label: 'تقرير Funds' },
+  { id: 'funds', label: 'تقرير الصناديق والاحتياطيات' },
   { id: 'projects', label: 'تقرير المشاريع' },
   { id: 'donors', label: 'تقرير المانحين' },
   { id: 'revenue', label: 'تقرير الإيرادات' },
@@ -107,7 +107,7 @@ export default function Reports() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Fund</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">الصندوق / الاحتياطي</label>
             <select value={fundId} onChange={(e) => setFundId(e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-md">
               <option value="">الكل</option>
               {funds.map((f) => (

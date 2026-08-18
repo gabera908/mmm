@@ -81,7 +81,7 @@ export default function Projects() {
               <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">الكود</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">الاسم</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">الوصف</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">Fund</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">الصندوق / الاحتياطي</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">المانح</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">الميزانية</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">تاريخ البداية</th>
@@ -163,7 +163,7 @@ export default function Projects() {
                 <textarea name="description" defaultValue={editingProject?.description} rows={2} className="w-full px-3 py-2 border border-slate-300 rounded-md" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Fund</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1">الصندوق / الاحتياطي</label>
                 <select name="fund_id" defaultValue={editingProject?.fund_id || ''} className="w-full px-3 py-2 border border-slate-300 rounded-md">
                   <option value="">اختر</option>
                   {funds.map((f) => (

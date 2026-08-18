@@ -10,7 +10,7 @@ const menuItems = [
   { path: '/american-journal', label: 'اليومية الأمريكية', icon: FileText },
   { path: '/ledger', label: 'الأستاذ العام', icon: FileText },
   { path: '/trial-balance', label: 'ميزان المراجعة', icon: PieChart },
-  { path: '/funds', label: 'Funds', icon: Wallet },
+  { path: '/funds', label: 'الصناديق والاحتياطيات', icon: Wallet },
   { path: '/projects', label: 'المشاريع', icon: PieChart },
   { path: '/donors', label: 'المانحون', icon: Users },
   { path: '/donations', label: 'التبرعات', icon: Wallet },

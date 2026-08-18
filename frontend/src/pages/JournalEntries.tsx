@@ -340,7 +340,7 @@ export default function JournalEntries() {
                   <input {...register('exchange_rate')} type="number" step="0.0001" className="w-full px-3 py-2 border border-slate-300 rounded-md" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Fund</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">الصندوق / الاحتياطي</label>
                   <select {...register('fund_id')} className="w-full px-3 py-2 border border-slate-300 rounded-md">
                     <option value="0">اختر</option>
                     {fundsList.map((f) => (
@@ -375,7 +375,7 @@ export default function JournalEntries() {
                     <thead className="bg-slate-50">
                       <tr>
                         <th className="px-3 py-2 text-right text-xs font-medium text-slate-500">الحساب</th>
-                        <th className="px-3 py-2 text-right text-xs font-medium text-slate-500">Fund</th>
+                        <th className="px-3 py-2 text-right text-xs font-medium text-slate-500">الصندوق / الاحتياطي</th>
                         <th className="px-3 py-2 text-right text-xs font-medium text-slate-500">المشروع</th>
                         <th className="px-3 py-2 text-right text-xs font-medium text-slate-500">مدين</th>
                         <th className="px-3 py-2 text-right text-xs font-medium text-slate-500">دائن</th>

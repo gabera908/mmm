@@ -4,6 +4,22 @@ import { useApiWithFallback } from '../../hooks/useApiWithFallback'
 import toast from 'react-hot-toast'
 import api from '../../services/api'
 
+const roleNameLabels: Record<string, string> = {
+  Administrator: 'مدير النظام',
+  Accountant: 'محاسب رئيسي',
+  Viewer: 'مستعرض البيانات',
+}
+
+const permissionLabels: Record<string, string> = {
+  '*': 'جميع الصلاحيات (مدير)',
+  view_accounts: 'عرض الحسابات',
+  create_journals: 'إضافة القيود اليومية',
+  view_reports: 'عرض التقارير',
+  manage_donations: 'إدارة التبرعات',
+  manage_projects: 'إدارة المشاريع',
+  view_journals: 'استعراض القيود',
+}
+
 export default function SettingsRoles() {
   const { data: roles, loading, setData: setRoles } = useApiWithFallback<any>('/roles', 'roles')
   const [showModal, setShowModal] = useState(false)
@@ -33,9 +49,9 @@ export default function SettingsRoles() {
     <div className="space-y-6" dir="rtl">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-slate-900">الأدوار والصلاحيات</h1>
-        <button onClick={() => openModal()} className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+        <button onClick={() => openModal()} className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-medium">
           <Plus size={20} />
-          إضافة دور
+          إضافة دور جديد
         </button>
       </div>
       <div className="bg-white rounded-lg shadow overflow-x-auto">
@@ -51,16 +67,25 @@ export default function SettingsRoles() {
           <tbody className="divide-y divide-slate-200">
             {roles.map((role: any) => (
               <tr key={role.id} className="hover:bg-slate-50">
-                <td className="px-6 py-4 text-sm font-medium text-slate-900">{role.name}</td>
+                <td className="px-6 py-4 text-sm font-medium text-slate-900">{roleNameLabels[role.name] || role.name}</td>
                 <td className="px-6 py-4 text-sm text-slate-700">{role.description || '-'}</td>
                 <td className="px-6 py-4 text-sm text-slate-700">
-                  {typeof role.permissions === 'string' ? role.permissions : Array.isArray(role.permissions) ? role.permissions.join(', ') : '-'}
+                  <div className="flex flex-wrap gap-1">
+                    {(typeof role.permissions === 'string' ? role.permissions.split(',') : Array.isArray(role.permissions) ? role.permissions : ['*']).map((p: string, idx: number) => {
+                      const trimmed = p.trim()
+                      return (
+                        <span key={idx} className="inline-flex px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded font-medium">
+                          {permissionLabels[trimmed] || trimmed}
+                        </span>
+                      )
+                    })}
+                  </div>
                 </td>
                 <td className="px-6 py-4 text-sm">
-                  <button onClick={() => openModal(role)} className="text-blue-600 hover:text-blue-800 ml-2">
+                  <button onClick={() => openModal(role)} className="text-blue-600 hover:text-blue-800 ml-2" title="تعديل">
                     <Edit size={16} />
                   </button>
-                  <button onClick={() => handleDelete(role.id)} className="text-red-600 hover:text-red-800">
+                  <button onClick={() => handleDelete(role.id)} className="text-red-600 hover:text-red-800" title="حذف">
                     <Trash2 size={16} />
                   </button>
                 </td>
@@ -73,7 +98,7 @@ export default function SettingsRoles() {
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">{editingRole ? 'تعديل دور' : 'إضافة دور'}</h2>
+            <h2 className="text-xl font-bold mb-4">{editingRole ? 'تعديل الدور' : 'إضافة دور جديد'}</h2>
             <form onSubmit={(e) => {
               e.preventDefault()
               const form = e.target as HTMLFormElement
@@ -100,11 +125,11 @@ export default function SettingsRoles() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">الوصف</label>
-                <textarea name="description" defaultValue={editingRole?.description} className="w-full px-3 py-2 border border-slate-300 rounded-md" rows={3} />
+                <textarea name="description" defaultValue={editingRole?.description} rows={2} className="w-full px-3 py-2 border border-slate-300 rounded-md" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">الصلاحيات (* للكل أو مفصولة بفواصل)</label>
-                <input name="permissions" defaultValue={typeof editingRole?.permissions === 'string' ? editingRole.permissions : Array.isArray(editingRole?.permissions) ? editingRole.permissions.join(',') : '*'} className="w-full px-3 py-2 border border-slate-300 rounded-md" />
+                <label className="block text-sm font-medium text-slate-700 mb-1">الصلاحيات (* للكل أو مفصولة بفاصلة)</label>
+                <input name="permissions" defaultValue={editingRole?.permissions} className="w-full px-3 py-2 border border-slate-300 rounded-md" placeholder="*" />
               </div>
               <div className="flex gap-2 justify-end">
                 <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 border border-slate-300 rounded-md">إلغاء</button>

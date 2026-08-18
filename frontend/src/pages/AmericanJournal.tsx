@@ -82,7 +82,7 @@ export default function AmericanJournal() {
             <input type="text" value={filters.account_id} onChange={(e) => setFilters({ ...filters, account_id: e.target.value })} placeholder="كود الحساب" className="w-full px-3 py-2 border border-slate-300 rounded-md" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Fund</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">الصندوق / الاحتياطي</label>
             <select value={filters.fund_id} onChange={(e) => setFilters({ ...filters, fund_id: e.target.value })} className="w-full px-3 py-2 border border-slate-300 rounded-md">
               <option value="">الكل</option>
               {funds.map((f) => (
