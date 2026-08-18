@@ -3,6 +3,7 @@ import api from '../services/api'
 import { Plus, Trash2, Eye, Edit } from 'lucide-react'
 import { Donor } from '../types'
 import toast from 'react-hot-toast'
+import { formatAmount } from '../utils/formatters'
 
 const donorTypeLabels: Record<string, string> = {
   individual: 'فرد',
@@ -196,7 +197,7 @@ export default function Donors() {
                   {donations.map((d) => (
                     <tr key={d.id}>
                       <td className="px-4 py-3 text-sm">{d.donation_date}</td>
-                      <td className="px-4 py-3 text-sm">{d.amount?.toLocaleString()}</td>
+                      <td className="px-4 py-3 text-sm font-semibold font-mono">{formatAmount(d.amount)}</td>
                       <td className="px-4 py-3 text-sm">{d.payment_method}</td>
                       <td className="px-4 py-3 text-sm">{d.project?.name || '-'}</td>
                     </tr>

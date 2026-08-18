@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import api from '../services/api'
 import { Download, Printer } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { formatAmount } from '../utils/formatters'
 
 interface TrialBalanceRow {
   code: string
@@ -73,16 +74,16 @@ export default function TrialBalance() {
                 <tr key={idx} className="hover:bg-slate-50">
                   <td className="px-6 py-4 text-sm font-medium text-slate-900">{row.code}</td>
                   <td className="px-6 py-4 text-sm text-slate-700">{row.name}</td>
-                  <td className="px-6 py-4 text-sm text-green-600">{row.debit?.toLocaleString()}</td>
-                  <td className="px-6 py-4 text-sm text-red-600">{row.credit?.toLocaleString()}</td>
+                  <td className="px-6 py-4 text-sm font-semibold text-emerald-600 font-mono">{formatAmount(row.debit)}</td>
+                  <td className="px-6 py-4 text-sm font-semibold text-rose-600 font-mono">{formatAmount(row.credit)}</td>
                 </tr>
               ))}
             </tbody>
             <tfoot className="bg-slate-50">
               <tr>
                 <td colSpan={2} className="px-6 py-4 text-sm font-bold text-slate-900">الإجمالي</td>
-                <td className="px-6 py-4 text-sm font-bold text-green-600">{data?.total_debit?.toLocaleString()}</td>
-                <td className="px-6 py-4 text-sm font-bold text-red-600">{data?.total_credit?.toLocaleString()}</td>
+                <td className="px-6 py-4 text-sm font-bold text-emerald-600 font-mono">{formatAmount(data?.total_debit)}</td>
+                <td className="px-6 py-4 text-sm font-bold text-rose-600 font-mono">{formatAmount(data?.total_credit)}</td>
               </tr>
               <tr>
                 <td colSpan={4} className="px-6 py-4 text-sm font-bold">

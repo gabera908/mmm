@@ -3,6 +3,7 @@ import api from '../services/api'
 import { Plus, Trash2, Edit } from 'lucide-react'
 import { Donation } from '../types'
 import toast from 'react-hot-toast'
+import { formatAmount } from '../utils/formatters'
 
 const paymentMethodLabels: Record<string, string> = {
   cash: 'نقدي',
@@ -87,7 +88,7 @@ export default function Donations() {
               <tr key={donation.id} className="hover:bg-slate-50">
                 <td className="px-6 py-4 text-sm text-slate-700">{donation.donation_date}</td>
                 <td className="px-6 py-4 text-sm text-slate-700">{donors.find((d) => d.id === donation.donor_id)?.name || '-'}</td>
-                <td className="px-6 py-4 text-sm font-medium text-slate-900">{donation.amount?.toLocaleString()}</td>
+                <td className="px-6 py-4 text-sm font-bold text-slate-900 font-mono">{formatAmount(donation.amount)}</td>
                 <td className="px-6 py-4 text-sm text-slate-700">{donation.currency}</td>
                 <td className="px-6 py-4 text-sm text-slate-700">{paymentMethodLabels[donation.payment_method] || donation.payment_method}</td>
                 <td className="px-6 py-4 text-sm text-slate-700">{funds.find((f) => f.id === donation.fund_id)?.name || '-'}</td>

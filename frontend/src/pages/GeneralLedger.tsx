@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import api from '../services/api'
 import { Download, Filter } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { formatAmount } from '../utils/formatters'
 
 interface LedgerRow {
   date: string
@@ -168,9 +169,9 @@ export default function GeneralLedger() {
                     <td className="px-6 py-4 text-sm text-slate-700">{row.date}</td>
                     <td className="px-6 py-4 text-sm text-slate-700">{row.entry_number}</td>
                     <td className="px-6 py-4 text-sm text-slate-700">{row.account_code} - {row.account_name}</td>
-                    <td className="px-6 py-4 text-sm text-green-600">{row.debit?.toLocaleString()}</td>
-                    <td className="px-6 py-4 text-sm text-red-600">{row.credit?.toLocaleString()}</td>
-                    <td className="px-6 py-4 text-sm font-medium">{row.balance?.toLocaleString()}</td>
+                    <td className="px-6 py-4 text-sm font-semibold text-emerald-600 font-mono">{formatAmount(row.debit)}</td>
+                    <td className="px-6 py-4 text-sm font-semibold text-rose-600 font-mono">{formatAmount(row.credit)}</td>
+                    <td className="px-6 py-4 text-sm font-bold text-slate-900 font-mono">{formatAmount(row.balance)}</td>
                   </tr>
                 ))}
               </tbody>

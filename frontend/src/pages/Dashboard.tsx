@@ -3,6 +3,7 @@ import api from '../services/api'
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts'
 import { TrendingUp, TrendingDown, Wallet, Users, PieChart as PieChartIcon, Download, Filter } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { formatAmount } from '../utils/formatters'
 
 interface DashboardData {
   total_assets: number
@@ -81,8 +82,8 @@ export default function Dashboard() {
     { title: 'الإيرادات', value: data.total_revenue, icon: TrendingUp, color: 'bg-green-500' },
     { title: 'المصروفات', value: data.total_expenses, icon: TrendingDown, color: 'bg-orange-500' },
     { title: 'التبرعات', value: data.total_donations, icon: TrendingUp, color: 'bg-teal-500' },
-    { title: 'المشاريع', value: data.projects_count, icon: PieChartIcon, color: 'bg-indigo-500' },
-    { title: 'المانحون', value: data.donors_count, icon: Users, color: 'bg-pink-500' },
+    { title: 'المشاريع', value: data.projects_count, icon: PieChartIcon, color: 'bg-indigo-500', isCount: true },
+    { title: 'المانحون', value: data.donors_count, icon: Users, color: 'bg-pink-500', isCount: true },
   ]
 
   return (
@@ -148,7 +149,7 @@ export default function Dashboard() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-slate-600">{card.title}</p>
-                  <p className="text-2xl font-bold text-slate-900">{card.value?.toLocaleString?.() || 0}</p>
+                  <p className="text-2xl font-bold text-slate-900 font-mono">{card.isCount ? (card.value || 0) : formatAmount(card.value)}</p>
                 </div>
                 <div className={`p-3 rounded-full ${card.color} bg-opacity-10`}>
                   <Icon className={`text-${card.color.replace('bg-', '')}`} size={24} />

@@ -3,6 +3,7 @@ import api from '../services/api'
 import { Plus, Trash2, Edit } from 'lucide-react'
 import { Project } from '../types'
 import toast from 'react-hot-toast'
+import { formatAmount } from '../utils/formatters'
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([])
@@ -98,7 +99,7 @@ export default function Projects() {
                 <td className="px-6 py-4 text-sm text-slate-700">{project.description}</td>
                 <td className="px-6 py-4 text-sm text-slate-700">{funds.find((f) => f.id === project.fund_id)?.name || '-'}</td>
                 <td className="px-6 py-4 text-sm text-slate-700">{donors.find((d) => d.id === project.donor_id)?.name || '-'}</td>
-                <td className="px-6 py-4 text-sm text-slate-700">{project.budget?.toLocaleString()}</td>
+                <td className="px-6 py-4 text-sm font-semibold text-slate-900 font-mono">{formatAmount(project.budget)}</td>
                 <td className="px-6 py-4 text-sm text-slate-700">{project.start_date}</td>
                 <td className="px-6 py-4 text-sm text-slate-700">{project.end_date}</td>
                 <td className="px-6 py-4 text-sm">

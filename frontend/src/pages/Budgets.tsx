@@ -3,6 +3,7 @@ import api from '../services/api'
 import { Plus, Trash2, Search } from 'lucide-react'
 import { Budget } from '../types'
 import toast from 'react-hot-toast'
+import { formatAmount, parseNumber } from '../utils/formatters'
 
 export default function Budgets() {
   const [budgets, setBudgets] = useState<Budget[]>([])
@@ -114,18 +115,20 @@ export default function Budgets() {
             {filteredBudgets.map((budget) => {
               const account = accounts.find((a) => a.id === budget.account_id)
               const fund = funds.find((f) => f.id === budget.fund_id)
+              const budgetAmt = parseNumber(budget.budget_amount)
+              const actualAmt = parseNumber(budget.actual_amount)
+              const variance = budgetAmt - actualAmt
+              const execution = budgetAmt ? ((actualAmt / budgetAmt) * 100) : 0
               const project = projects.find((p) => p.id === budget.project_id)
-              const variance = (budget.budget_amount || 0) - (budget.actual_amount || 0)
-              const execution = budget.budget_amount ? ((budget.actual_amount / budget.budget_amount) * 100) : 0
               return (
                 <tr key={budget.id} className="hover:bg-slate-50">
                   <td className="px-6 py-4 text-sm text-slate-700">{budget.fiscal_year}</td>
                   <td className="px-6 py-4 text-sm text-slate-700">{account?.code} - {account?.name || '-'}</td>
                   <td className="px-6 py-4 text-sm text-slate-700">{fund?.name || '-'}</td>
                   <td className="px-6 py-4 text-sm text-slate-700">{project?.name || '-'}</td>
-                  <td className="px-6 py-4 text-sm text-slate-700">{budget.budget_amount?.toLocaleString()}</td>
-                  <td className="px-6 py-4 text-sm text-slate-700">{budget.actual_amount?.toLocaleString()}</td>
-                  <td className="px-6 py-4 text-sm text-slate-700">{variance.toLocaleString()}</td>
+                  <td className="px-6 py-4 text-sm font-semibold text-slate-900 font-mono">{formatAmount(budgetAmt)}</td>
+                  <td className="px-6 py-4 text-sm font-semibold text-blue-600 font-mono">{formatAmount(actualAmt)}</td>
+                  <td className="px-6 py-4 text-sm font-semibold text-slate-700 font-mono">{formatAmount(variance)}</td>
                   <td className="px-6 py-4 text-sm">
                     <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${execution > 100 ? 'bg-red-100 text-red-800' : execution > 80 ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}`}>
                       {execution.toFixed(1)}%

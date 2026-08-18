@@ -4,6 +4,7 @@ import { Plus, Search, Trash2, Edit, Check, X, RefreshCw, Printer, Download } fr
 import { JournalEntry, Account, Fund, Project } from '../types'
 import toast from 'react-hot-toast'
 import { useForm, useFieldArray } from 'react-hook-form'
+import { formatAmount, parseNumber } from '../utils/formatters'
 
 interface JournalForm {
   entry_date: string
@@ -57,8 +58,8 @@ export default function JournalEntries() {
   const watchedLines = watch('lines')
 
   const totals = useMemo(() => {
-    const debit = watchedLines?.reduce((sum, line) => sum + (Number(line.debit) || 0), 0) || 0
-    const credit = watchedLines?.reduce((sum, line) => sum + (Number(line.credit) || 0), 0) || 0
+    const debit = watchedLines?.reduce((sum: number, line: any) => sum + parseNumber(line.debit), 0) || 0
+    const credit = watchedLines?.reduce((sum: number, line: any) => sum + parseNumber(line.credit), 0) || 0
     return { debit, credit, balanced: Math.abs(debit - credit) < 0.01 }
   }, [watchedLines])
 
@@ -274,9 +275,9 @@ export default function JournalEntries() {
                   <tr key={entry.id} className="hover:bg-slate-50">
                     <td className="px-6 py-4 text-sm font-medium text-slate-900">{entry.entry_number}</td>
                     <td className="px-6 py-4 text-sm text-slate-700">{entry.entry_date}</td>
-                    <td className="px-6 py-4 text-sm text-slate-700">{entry.description}</td>
-                    <td className="px-6 py-4 text-sm text-green-600">{entry.lines?.reduce((s, l) => s + l.debit, 0).toLocaleString()}</td>
-                    <td className="px-6 py-4 text-sm text-red-600">{entry.lines?.reduce((s, l) => s + l.credit, 0).toLocaleString()}</td>
+                    <td className="px-6 py-4 text-sm font-medium text-slate-700">{entry.description}</td>
+                    <td className="px-6 py-4 text-sm font-semibold text-emerald-600 font-mono">{formatAmount(entry.lines?.reduce((s: number, l: any) => s + parseNumber(l.debit), 0))}</td>
+                    <td className="px-6 py-4 text-sm font-semibold text-rose-600 font-mono">{formatAmount(entry.lines?.reduce((s: number, l: any) => s + parseNumber(l.credit), 0))}</td>
                     <td className="px-6 py-4 text-sm">
                       <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(entry.status)}`}>
                         {getStatusText(entry.status)}
@@ -384,7 +385,7 @@ export default function JournalEntries() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200">
-                      {fields.map((field, index) => (
+                      {fields.map((field: any, index: number) => (
                         <tr key={field.id}>
                           <td className="px-3 py-2">
                             <select {...register(`lines.${index}.account_id`)} className="w-full px-2 py-1 border border-slate-300 rounded">
@@ -431,14 +432,14 @@ export default function JournalEntries() {
                     </tbody>
                   </table>
                 </div>
-                <div className="mt-4 flex justify-end gap-4 text-sm">
-                  <div className={`px-4 py-2 rounded ${totals.balanced ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                    إجمالي المدين: {totals.debit.toLocaleString()}
+                <div className="mt-4 flex justify-end gap-4 text-sm font-medium">
+                  <div className={`px-4 py-2 rounded ${totals.balanced ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
+                    إجمالي المدين: <span className="font-mono font-bold">{formatAmount(totals.debit)}</span>
                   </div>
-                  <div className={`px-4 py-2 rounded ${totals.balanced ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                    إجمالي الدائن: {totals.credit.toLocaleString()}
+                  <div className={`px-4 py-2 rounded ${totals.balanced ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
+                    إجمالي الدائن: <span className="font-mono font-bold">{formatAmount(totals.credit)}</span>
                   </div>
-                  <div className={`px-4 py-2 rounded ${totals.balanced ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                  <div className={`px-4 py-2 rounded font-bold ${totals.balanced ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
                     {totals.balanced ? 'متوازن' : 'غير متوازن'}
                   </div>
                 </div>
