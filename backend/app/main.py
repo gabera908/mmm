@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api import auth, users, roles, accounts, funds, donors, projects, journals, budgets, donations, currencies, fiscal_years, audit_logs, backups, reports, ledger, trial_balance, health
+from app.api import auth, users, roles, accounts, funds, donors, projects, journals, budgets, donations, currencies, fiscal_years, audit_logs, backups, reports, ledger, trial_balance, health, system
 from app.api.settings import router as settings_router
 from app.core.database import engine, Base
 from app.models import user, account, fund, donor, project, journal, budget, donation, currency, fiscal_year, audit_log, backup, company_settings
@@ -59,3 +59,5 @@ app.include_router(backups.router, prefix="/api/backups", tags=["Backups"])
 app.include_router(reports.router, prefix="/api/reports", tags=["Reports"])
 app.include_router(ledger.router, tags=["General Ledger"])
 app.include_router(trial_balance.router, tags=["Trial Balance"])
+app.include_router(system.router)
+

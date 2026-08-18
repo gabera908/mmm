@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 from app.core.database import Base, get_db
 from app.main import app
-from app.scripts.seed import seed_roles, seed_users
+from app.scripts.seed import run_seed
 
 SQLALCHEMY_DATABASE_URL = "sqlite://"
 
@@ -14,8 +14,7 @@ TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engin
 Base.metadata.create_all(bind=engine)
 
 db = TestingSessionLocal()
-seed_roles(db)
-seed_users(db)
+run_seed(db=db, force_reset=True)
 db.close()
 
 
